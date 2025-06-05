@@ -7,9 +7,9 @@ services:
       dockerfile: backend/Dockerfile
     environment:
       - DJANGO_SETTINGS_MODULE=backend.config.settings.prod
-    command: >
+    command: > # dev_6 wait-for-it.sh 추가 및 bash로 수정
       bash -c "
-        /app/wait-for-it.sh db:3306 --timeout=30 --strict -- \
+        /app/wait-for-it.sh db:3306 --timeout=30 --strict -- \ 
         python manage.py makemigrations --no-input &&
         python manage.py migrate --no-input &&
         python manage.py collectstatic --no-input &&
