@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
 # requirements 복사 및 설치
 COPY backend/ .
 
+#dev_5_복사되도록 추가
+COPY .env.prod . 
+
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install gunicorn
 
