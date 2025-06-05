@@ -32,7 +32,7 @@ jobs:
           remote_path: /home/ubuntu/django-react-hjs-distribute/
           remote_host: ${{ secrets.EC2_HOST }}
           remote_user: ${{ secrets.EC2_USER }}
-          remote_key: ${{ secrets.EC2_KEY }}
+          remote_key: ${{ secrets.EC2_KEY }} 
       
       - name: Run Docker Compose on EC2
         uses: appleboy/ssh-action@master
