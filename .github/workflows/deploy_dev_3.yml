@@ -41,47 +41,15 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/ubuntu/django-react-hjs-distribute/backend/
+            cd /home/ubuntu/django-react-hjs-distribute
+            # 1. 컨테이너 중지 및 삭제
+            docker compose down
 
-            # 1. 시스템 업데이트 및 파이썬, 가상환경 패키지 설치
-            sudo apt update
-            sudo apt install -y python3 python3-pip python3-venv
+            # 2. 기존에 빌드된 이미지 삭제 (compose로 만든 이미지)
+            docker images | grep 'your_project_name' | awk '{print $3}' | xargs docker rmi -f
 
-            # 2. 가상환경 생성 (없으면 생성)
-            if [ ! -d "venv" ]; then
-                python3 -m venv venv
-            fi
+            # 3. 캐시 무시하고 새로 빌드
+            docker compose build --no-cache
 
-            # 3. 가상환경 활성화
-            source venv/bin/activate
-
-            # 4. pip 최신 버전으로 업그레이드
-            pip install --upgrade pip
-
-            # 5. 필수 빌드 도구 설치 (mysqlclient, pillow 빌드에 필요)
-            sudo apt-get update && sudo apt-get install -y \
-                gcc \
-                default-libmysqlclient-dev \
-                pkg-config \
-                build-essential \
-                libjpeg-dev \
-                zlib1g-dev \
-                libfreetype6-dev \
-                liblcms2-dev \
-                libwebp-dev \
-                libtiff5-dev \
-                tk-dev \
-                && sudo rm -rf /var/lib/apt/lists/*
-
-            # 6. requirements.txt에 명시된 패키지 설치
-            pip install -r requirements.txt
-
-            # 7. Django 마이그레이션 수행
-            python manage.py makemigrations --no-input
-            python manage.py migrate --no-input
-
-            # 8. 기존 8080 포트 사용중인 프로세스 종료
-            sudo lsof -t -i tcp:8080 | xargs -r kill -9
-
-            # 9. Django 서버 백그라운드 실행 (로그 server.log 저장)
-            nohup python manage.py runserver 0.0.0.0:8080 > server.log 2>&1 &
+            # 4. 백그라운드로 실행
+            docker compose up -d
