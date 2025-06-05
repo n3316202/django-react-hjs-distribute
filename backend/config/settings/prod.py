@@ -40,6 +40,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret")
 print('시크릿키',SECRET_KEY)
 
 # dev_6 DB 변경
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -50,3 +51,15 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': os.getenv('DB_USER'),
+#         'PASSWORD': os.getenv('DB_PASSWORD'),
+#         'HOST': os.getenv('DB_HOST', 'localhost'),
+#         'PORT': os.getenv('DB_PORT', '3306'),
+#     }
+# }
+
