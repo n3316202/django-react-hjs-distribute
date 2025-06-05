@@ -1,9 +1,9 @@
-name: dev_9_리액트_추가-2025-06-05
+name: dev_10_리액트_기본_NGINX-2025-06-06
 
 on:
   push:
     branches:
-      - dev_9_리액트_추가-2025-06-05
+      - dev_10_리액트_기본_NGINX-2025-06-06
 jobs:
   deploy:
     name: Deploy to EC2
