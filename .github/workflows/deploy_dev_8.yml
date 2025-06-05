@@ -1,0 +1,66 @@
+name: dev_8_admin_계정_Command_객체-2025-06-05
+
+on:
+  push:
+    branches:
+      - dev_8_admin_계정_Command_객체-2025-06-05
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest   
+    
+    steps:
+      # actions/checkout@v3: 소스코드를 runner에 내려받습니다.
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create remote directory on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            sudo rm -rf /home/ubuntu/django-react-hjs-distribute
+            mkdir -p /home/ubuntu/django-react-hjs-distribute
+      
+      #주로 **로컬 코드(깃허브 저장소)**를 원격 서버(예: EC2)에 rsync 명령어를 통해 빠르게 복사/배포    
+      - name: Rsync source code to EC2
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete
+          remote_path: /home/ubuntu/django-react-hjs-distribute/
+          remote_host: ${{ secrets.EC2_HOST }}
+          remote_user: ${{ secrets.EC2_USER }}
+          remote_key: ${{ secrets.EC2_KEY }} 
+      
+      #dev_5 추가 미리 준비한 파일 카피 하기 
+      - name: Create remote directory on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            echo "✅ Copying .env.prod files to project"   
+            cp /home/ubuntu/distribute_settings/django.env.prod /home/ubuntu/django-react-hjs-distribute/.env.prod
+            echo "✅ Done copying environment files"      
+      - name: Run Docker Compose on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd /home/ubuntu/django-react-hjs-distribute
+            # 1. 컨테이너 중지 및 삭제
+            docker compose down
+
+            # 2. 기존에 빌드된 이미지 삭제 (compose로 만든 이미지)
+            docker images | grep 'your_project_name' | awk '{print $3}' | xargs docker rmi -f
+
+            # 3. 캐시 무시하고 새로 빌드
+            docker compose build --no-cache
+
+            # 4. 백그라운드로 실행
+            docker compose up -d
