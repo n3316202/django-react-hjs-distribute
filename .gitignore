@@ -1,0 +1,82 @@
+# =====================
+# Global
+# =====================
+__pycache__/
+*.py[cod]
+*.swp
+*.swo
+*.log
+*.env
+.env.*
+.DS_Store
+Thumbs.db
+
+# =====================
+# Django
+# =====================
+/backend/db.sqlite3
+/backend/staticfiles/
+backend/media/
+*.sqlite3
+
+# VSCode project settings
+.vscode/
+
+# Migrations
+*/migrations/
+!*/migrations/__init__.py
+
+# =====================
+# Node / React / Vite
+# =====================
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/.next/
+/frontend/.cache/
+/frontend/.eslintcache
+
+# =====================
+# Docker
+# =====================
+*.pid
+docker-compose.override.yml
+
+# =====================
+# Nginx (optional)
+# =====================
+nginx/*.pid
+nginx/logs/
+
+# =====================
+# OS
+# =====================
+ehthumbs.db
+Icon?
+desktop.ini
+
+# =====================
+# Test / Coverage
+# =====================
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.*
+.cache
+pytest_cache/
+
+# =====================
+# Build artifacts
+# =====================
+*.egg-info/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg
