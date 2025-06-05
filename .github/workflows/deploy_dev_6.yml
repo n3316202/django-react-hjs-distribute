@@ -1,9 +1,9 @@
-name: dev_5_환경변수_처리방법-2025-06-05
+name: dev_6_mysql_도입_2025-06-05
 
 on:
   push:
     branches:
-      - dev_5_환경변수_처리방법-2025-06-05
+      - dev_6_mysql_도입_2025-06-05
 jobs:
   deploy:
     name: Deploy to EC2
