@@ -39,3 +39,14 @@ load_dotenv(dotenv_path=PARENT_DIR / '.env.prod')  # 또는 '.env.prod' 등
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret")
 print('시크릿키',SECRET_KEY)
 
+# dev_6 DB 변경
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'distribute',
+        'USER': 'distribute',
+        'PASSWORD': 'distribute',
+        'HOST': 'db',
+        'PORT': '3306',
+    }
+}

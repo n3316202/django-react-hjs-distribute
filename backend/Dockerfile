@@ -3,8 +3,10 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # 필수 패키지 설치
+# dev_6 curl 추가
 RUN apt-get update && apt-get install -y \
     gcc \
+    curl \ 
     default-libmysqlclient-dev \
     pkg-config \
     build-essential \
@@ -30,3 +32,6 @@ RUN pip install gunicorn
 COPY backend/ ./backend/
 COPY backend/manage.py .
 
+#dev_6 
+COPY backend/wait-for-it.sh ./wait-for-it.sh
+RUN chmod +x ./wait-for-it.sh
