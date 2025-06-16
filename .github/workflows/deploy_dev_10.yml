@@ -58,7 +58,7 @@ jobs:
             docker compose down
 
             # 2. 기존에 빌드된 이미지 삭제 (compose로 만든 이미지)
-            docker images | grep 'django-react-hjs-distribute' | awk '{print $3}' | xargs docker rmi -f
+            docker images --format "{{.Repository}} {{.ID}}" | grep '^django-react-hjs-distribute' | awk '{print $2}' | xargs -r docker rmi -f
 
             # 3. 캐시 무시하고 새로 빌드
             docker compose build --no-cache
