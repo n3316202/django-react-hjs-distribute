@@ -43,6 +43,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             echo "✅ Copying .env.prod files to project"   
+            cp /home/ubuntu/distribute_settings/django.env.prod /home/ubuntu/django-react-hjs-distribute/.env.prod
             cp /home/ubuntu/distribute_settings/react.env.prod /home/ubuntu/django-react-hjs-distribute/fronted/.env.prod
             echo "✅ Done copying environment files"
             
