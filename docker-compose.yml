@@ -1,45 +1,45 @@
 version: '3.8'
 
 services:
-  # backend:
-  #   build:
-  #     context: . # 현재 디렉토리 (project-root)
-  #     dockerfile: backend/Dockerfile
-  #   environment:
-  #     - DJANGO_SETTINGS_MODULE=backend.config.settings.prod
-  #   command: > # dev_6 wait-for-it.sh 추가 및 bash로 수정
-  #     bash -c "
-  #       /app/wait-for-it.sh db:3306 --timeout=30 --strict -- &&  
-  #       python manage.py makemigrations --no-input &&
-  #       python manage.py migrate --no-input &&
-  #       python manage.py collectstatic --no-input &&
-  #       python manage.py superuser && 
-  #       gunicorn backend.config.wsgi:application --bind 0.0.0.0:8000
-  #     "
-  #   volumes:
-  #     - static:/app/backend/staticfiles #dev_4
-  #     - media:/app/backend/media
-  #   expose:
-  #     - "8000"
-  #   depends_on: #dev_6
-  #     - db
+  backend:
+    build:
+      context: . # 현재 디렉토리 (project-root)
+      dockerfile: backend/Dockerfile
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.config.settings.prod
+    command: > # dev_6 wait-for-it.sh 추가 및 bash로 수정
+      bash -c "
+        /app/wait-for-it.sh db:3306 --timeout=30 --strict -- &&  
+        python manage.py makemigrations --no-input &&
+        python manage.py migrate --no-input &&
+        python manage.py collectstatic --no-input &&
+        python manage.py superuser && 
+        gunicorn backend.config.wsgi:application --bind 0.0.0.0:8000
+      "
+    volumes:
+      - static:/app/backend/staticfiles #dev_4
+      - media:/app/backend/media
+    expose:
+      - "8000"
+    depends_on: #dev_6
+      - db
 
-  # #dev_6 
-  # db: 
-  #   container_name: db
-  #   image: mysql:8.0
-  #   ports:
-  #     - "3306:3306"
-  #   command:
-  #     - --character-set-server=utf8mb4
-  #     - --collation-server=utf8mb4_unicode_ci
-  #   environment:    
-  #     MYSQL_ROOT_PASSWORD: 1234
-  #     MYSQL_DATABASE: distribute
-  #     MYSQL_USER: distribute
-  #     MYSQL_PASSWORD: distribute
-  #   volumes:
-  #     - db-data:/var/lib/mysql
+  #dev_6 
+  db: 
+    container_name: db
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:    
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: distribute
+      MYSQL_USER: distribute
+      MYSQL_PASSWORD: distribute
+    volumes:
+      - db-data:/var/lib/mysql
 
   frontend:
     build:
