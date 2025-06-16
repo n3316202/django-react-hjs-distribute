@@ -3,6 +3,8 @@ from django.db import connection, reset_queries
 from api.models import Product, Category
 from pprint import pprint
 
+# dev_12 아래의 명령어로 
+# python manage.py test api
 
 class NPlusOneTest(TestCase):
 
