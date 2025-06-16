@@ -44,7 +44,8 @@ jobs:
           script: |
             echo "✅ Copying .env.prod files to project"   
             cp /home/ubuntu/distribute_settings/django.env.prod /home/ubuntu/django-react-hjs-distribute/.env.prod
-            echo "✅ Done copying environment files"      
+            echo "✅ Done copying environment files"
+            
       - name: Run Docker Compose on EC2
         uses: appleboy/ssh-action@master
         with:
@@ -57,7 +58,7 @@ jobs:
             docker compose down
 
             # 2. 기존에 빌드된 이미지 삭제 (compose로 만든 이미지)
-            docker images | grep 'your_project_name' | awk '{print $3}' | xargs docker rmi -f
+            docker images | grep 'django-react-hjs-distribute' | awk '{print $3}' | xargs docker rmi -f
 
             # 3. 캐시 무시하고 새로 빌드
             docker compose build --no-cache
