@@ -44,7 +44,7 @@ jobs:
           script: |
             echo "✅ Copying .env.prod files to project"   
             cp /home/ubuntu/distribute_settings/django.env.prod /home/ubuntu/django-react-hjs-distribute/.env.prod
-            cp /home/ubuntu/distribute_settings/react.env.prod /home/ubuntu/django-react-hjs-distribute/fronted/.env.prod
+            cp /home/ubuntu/distribute_settings/react.env.prod /home/ubuntu/django-react-hjs-distribute/frontend/.env.prod
             echo "✅ Done copying environment files"
             
       - name: Run Docker Compose on EC2
