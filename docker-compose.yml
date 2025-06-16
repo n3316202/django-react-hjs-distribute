@@ -48,6 +48,8 @@ services:
     ports:
       - "8080:80"
     volumes:
+      - static:/home/app/web/static
+      - media:/home/app/web/media
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     #restart: always
 
