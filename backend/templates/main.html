@@ -1,5 +1,5 @@
 <!-- templates/main.html #dev_1-->
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,5 +7,28 @@
 </head>
 <body>
     <h1>메인 페이지 입니다.</h1>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book List</title>
+</head>
+<body>
+  <h1>📚 책 목록</h1>
+  <ul>
+    {% for book in books %}
+      <li>
+        <strong>{{ book.title }}</strong><br>
+        저자:
+        <ul>
+          {% for author in book.authors.all %}
+            <li>{{ author.name }}</li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
 </body>
 </html>
